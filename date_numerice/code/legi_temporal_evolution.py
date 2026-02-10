@@ -94,23 +94,25 @@ for an in ani:
     df_cum = puncte_in[puncte_in["An_solutie"] <= an]
 
     agg = (
-        puncte_in
-        .groupby(["An_solutie", "Lege_top", "lat_r", "lon_r"], observed=True)
+        df_cum
+        .groupby(["Lege_top", "lat_r", "lon_r"], observed=True)
         .agg(
             n_locatie=("lat_r", "size"),
             Adresa_contemporană=("Adresa contemporană",
-                                lambda x: "<br>".join(x.astype(str).unique()[:5])),
+                                 lambda x: "<br>".join(x.astype(str).unique()[:5])),
             Pdf_nume=("Pdf_nume",
-                    lambda x: "<br>".join(x.astype(str).unique()[:5])),
+                      lambda x: "<br>".join(x.astype(str).unique()[:5])),
             Dosar_PMB=("Dosar PMB",
-                    lambda x: "<br>".join(x.astype(str).unique()[:5])),
+                       lambda x: "<br>".join(x.astype(str).unique()[:5])),
             Tip_proprietate=("Tip proprietate",
-                            lambda x: "<br>".join(x.astype(str).unique()[:5])),
+                             lambda x: "<br>".join(x.astype(str).unique()[:5])),
         )
         .reset_index()
     )
+
     agg["An_slider"] = an
     frames.append(agg)
+
 
 puncte_animatie = pd.concat(frames, ignore_index=True)
 
